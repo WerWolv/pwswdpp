@@ -12,8 +12,8 @@ A modern C++ rewrite of the [OpenDingux pwswd daemon](https://github.com/tonyjih
   - Toggle aspect ratio and integer scaling (VolumeUp) **\*(NEW)\***
   - Mute / Unmute device (VolumeDown) **\*(NEW)\***
 - General shortcuts
-  - Increase Volume (VolumeUp)
-  - Decrease Volume (VolumeDown)
+  - Increase volume (VolumeUp)
+  - Decrease volume (VolumeDown)
 - Additional features
   - Overlays (Volume/Brightness/Sharpness slider, shortcut feedback "notifications") **\*(NEW)\***
   
