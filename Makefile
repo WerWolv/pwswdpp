@@ -66,7 +66,7 @@ $(BUILD):
 	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
 
 clean:
-	rm -fr $(BUILD) $(TOPDIR)/pwswdpp.elf
+	rm -fr $(BUILD) $(TOPDIR)/pwswdpp
 
 else
 
@@ -74,9 +74,12 @@ else
 
 DEPENDS	:=	$(OFILES:.o=.d)
 
-all: $(TOPDIR)/pwswdpp.elf
+all: $(TOPDIR)/pwswdpp
 
-$(TOPDIR)/pwswdpp.elf: $(OFILES)
+$(TOPDIR)/pwswdpp: pwswdpp.elf
+	@cp pwswdpp.elf $(TOPDIR)/pwswdpp
+
+pwswdpp.elf: $(OFILES)
 
 %.o: %.cpp
 	@mkdir -p $(@D)

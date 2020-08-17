@@ -25,3 +25,9 @@ A modern C++ rewrite of the [OpenDingux pwswd daemon](https://github.com/tonyjih
 ## Currently supported devices
 - RG350
 - RG350M
+
+## Installation
+- Make a backup of your system sd card using `dd`
+- Connect to your OpenDingux device over FTP and extract the release zip into the `/usr/local/sbin` directory
+- Give permissions to `frontend_start` and `pwswdpp` by running `chmod 766 frontend_start pwswdpp`
+- Restart your device
