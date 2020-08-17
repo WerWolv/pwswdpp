@@ -53,7 +53,7 @@ void handlePowerShortcut(pwswd::Button button) {
             screen.toggleDisplayStyle();
             break;
         case pwswd::Button::VolumeDown:
-            audio.toggle();
+            audio.mute();
             break;
         case pwswd::Button::L3:
             if (mouseModeState == pwswd::MouseMode::LeftJoyStick) {

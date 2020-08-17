@@ -11,31 +11,12 @@ namespace pwswd::dev {
     class Audio {
     public:
         Audio() { }
-
-        void toggle() {
-            if (this->m_muted)
-                this->unmute();
-            else
-                this->mute();
-
-            this->m_muted = !this->m_muted;
-        }
         
         void mute() {
             pid_t child = fork();
 
             if (!child)
-                execlp("amixer", "-M", "-q", "set", "PCM", "mute", nullptr);
-
-            int status = 0;
-            waitpid(child, &status, 0);
-        }
-
-        void unmute() {
-            pid_t child = fork();
-
-            if (!child)
-                execlp("amixer", "-M", "-q", "set", "PCM", "unmute", nullptr);
+                execlp("amixer", "-M", "-q", "set", "PCM", "0%", nullptr);
 
             int status = 0;
             waitpid(child, &status, 0);
