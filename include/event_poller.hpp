@@ -55,11 +55,25 @@ namespace pwswd {
         }
 
         void grab() {
-            ioctl(this->m_eventfd, IoCtlCommandEventGrab, true);
+            if (this->m_grabbed)
+                return;
+
+            if (ioctl(this->m_eventfd, IoCtlCommandEventGrab, true) != -1)
+                this->m_grabbed = true;
+            else throw std::runtime_error("Failed to grab event!");
         }
 
         void ungrab() {
-            ioctl(this->m_eventfd, IoCtlCommandEventGrab, false);
+            if (!this->m_grabbed)
+                return;
+
+            if (ioctl(this->m_eventfd, IoCtlCommandEventGrab, false) != -1)
+                this->m_grabbed = false;
+            else throw std::runtime_error("Failed to ungrab event!");
+        }
+
+        bool isGrabbed() {
+            return this->m_grabbed;
         }
 
     private:
@@ -67,6 +81,7 @@ namespace pwswd {
 
         int m_epollfd, m_eventfd;
         epoll_event m_eventData;
+        bool m_grabbed = false;
     };
 
 }

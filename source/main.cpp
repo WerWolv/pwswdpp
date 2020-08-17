@@ -290,6 +290,9 @@ int main() {
                     break;
                 case pwswd::ButtonState::Released:  
                     
+                    // Unblock button inputs for other apps
+                    buttonEvent.ungrab();
+
                     // Don't enter sleep mode if the user pressed any button after holding down the power button
                     if (!activatedShortcut) {
                         if (timeSincePowerButtonDown < pwswd::PowerButtonShortPressDuration) {
@@ -309,8 +312,6 @@ int main() {
                     activatedShortcut = false;
                     powerButtonDown = false;
 
-                    // Unblock button inputs for other apps
-                    buttonEvent.ungrab();
                     break;
                 case pwswd::ButtonState::Held:
 
