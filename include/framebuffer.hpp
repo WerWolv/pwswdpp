@@ -79,6 +79,10 @@ namespace pwswd {
             if (this->m_framebufferfd == -1)
                 throw std::runtime_error("Failed to open framebuffer device!");
 
+            
+            if (ioctl(this->m_framebufferfd, IoCtlCommandFramebufferGetFScreenInfo, &this->m_fixScreenInfo) < 0)
+                throw std::runtime_error("Failed to get fixed screen info!");
+
             this->refreshScreenInfo();
         }
 
@@ -120,9 +124,6 @@ namespace pwswd {
         void refreshScreenInfo() {
             if (ioctl(this->m_framebufferfd, IoCtlCommandFramebufferGetVScreenInfo, &this->m_varScreenInfo) < 0)
                 throw std::runtime_error("Failed to get variable screen info!");
-
-            if (ioctl(this->m_framebufferfd, IoCtlCommandFramebufferGetFScreenInfo, &this->m_fixScreenInfo) < 0)
-                throw std::runtime_error("Failed to get fixed screen info!");
         }
 
         void map() {
@@ -154,7 +155,7 @@ namespace pwswd {
                 case 16: return ((b & 0x1F) << 11) | ((g & 0x3F) << 5) | (r & 0x1F);
                 case 24: return (b << 16) | (g << 8) | (r);
                 case 32: return (a << 24) | (b << 16) | (g << 8) | (r);
-                default: printf("%d\n", this->getBitsPerPixel()); return 0x00;
+                default: return 0x00;
             }
         }
 
