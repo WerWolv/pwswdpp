@@ -11,6 +11,7 @@ A modern C++ rewrite of the [OpenDingux pwswd daemon](https://github.com/tonyjih
   - Decrease brightness (DpadDown)
   - Toggle aspect ratio and integer scaling (VolumeUp) **\*(NEW)\***
   - Mute / Unmute device (VolumeDown) **\*(NEW)\***
+  - Mouse mode (L3 for left stick mouse, R3 for right stick mouse) **\*(IMPROVED)\***
 - General shortcuts
   - Increase volume (VolumeUp)
   - Decrease volume (VolumeDown)
@@ -18,8 +19,6 @@ A modern C++ rewrite of the [OpenDingux pwswd daemon](https://github.com/tonyjih
   - Overlays (Volume/Brightness/Sharpness slider, shortcut feedback "notifications") **\*(NEW)\***
   
 ## Missing but planed features
-- Mouse mode
-  - Planed improvements to acceleration and general UX
 - Screenshots
 - Additional features that improve the software UI and UX of OpenDingux devices
 
