@@ -4,7 +4,7 @@ A modern C++ rewrite of the [OpenDingux pwswd daemon](https://github.com/tonyjih
 ## Currently supported features
 - Power button shortcuts
   - Device standby mode! (Power button) **\*(NEW)\***
-  - Return to main menu (Select)
+  - Kill foreground application (Select)
   - Increase screen sharpness (DpadRight)
   - Decrease screen sharpness (DpadLeft)
   - Increase brightness (DpadUp)
