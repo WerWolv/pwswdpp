@@ -10,7 +10,7 @@ A modern C++ rewrite of the [OpenDingux pwswd daemon](https://github.com/tonyjih
   - Increase brightness (DpadUp)
   - Decrease brightness (DpadDown)
   - Toggle aspect ratio and integer scaling (VolumeUp) **\*(NEW)\***
-  - Mute / Unmute device (VolumeDown) **\*(NEW)\***
+  - Mute device (VolumeDown) **\*(NEW)\***
   - Mouse mode (L3 for left stick mouse, R3 for right stick mouse) **\*(IMPROVED)\***
 - General shortcuts
   - Increase volume (VolumeUp)
