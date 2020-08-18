@@ -12,6 +12,7 @@ A modern C++ rewrite of the [OpenDingux pwswd daemon](https://github.com/tonyjih
   - Toggle aspect ratio and integer scaling (VolumeUp) **\*(NEW)\***
   - Mute device (VolumeDown) **\*(NEW)\***
   - Mouse mode (L3 for left stick mouse, R3 for right stick mouse) **\*(IMPROVED)\***
+  - Access emulator settigns (Start) **\*(NEW)\***
 - General shortcuts
   - Increase volume (VolumeUp)
   - Decrease volume (VolumeDown)
