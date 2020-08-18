@@ -1,6 +1,7 @@
 #!/bin/sh
 
 killall pwswd
+killall pwswdpp
 
 exec /usr/local/sbin/pwswdpp &
 
