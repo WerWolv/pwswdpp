@@ -11,7 +11,7 @@ namespace pwswd::dev {
     public:
         Power() : m_buttonEvent(nullptr), m_screen(nullptr), m_isScreenOff(false) {}
 
-        void initialize(pwswd::EventPoller *buttonEvent, pwswd::dev::Screen *screen) {
+        void initialize(pwswd::dev::EventPoller *buttonEvent, pwswd::dev::Screen *screen) {
             this->m_buttonEvent = buttonEvent;
             this->m_screen = screen;
         }
@@ -68,7 +68,7 @@ namespace pwswd::dev {
     private:
         bool m_isScreenOff;
 
-        pwswd::EventPoller *m_buttonEvent;
+        pwswd::dev::EventPoller *m_buttonEvent;
         pwswd::dev::Screen *m_screen;
     };
 

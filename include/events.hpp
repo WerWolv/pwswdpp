@@ -55,6 +55,7 @@ namespace pwswd {
         R2          = 109,
         R3          = 83,
 
+        Home        = 102,
         DpadUp      = 103,
         DpadDown    = 108,
         DpadLeft    = 105,
@@ -76,20 +77,47 @@ namespace pwswd {
         std::int32_t value;
     };
 
-    enum class MouseMovementState {
-        Stopped,
-        Slow,
-        Fast
-    };
-
     enum class MouseMode {
-        Deactive,
+        Deactivated,
         LeftJoyStick,
         RightJoyStick
     };
 
     static inline std::uint64_t toMicroSeconds(const timeval time) {
         return time.tv_sec * 1E6 + time.tv_usec;
+    }
+
+    static inline InputEvent createButtonInputEvent(Button button, ButtonState state) {
+        pwswd::InputEvent event;
+
+        gettimeofday(&event.time, nullptr);
+        event.type = static_cast<std::uint16_t>(EventType::Buttons);
+        event.code = static_cast<std::uint16_t>(button);
+        event.value = static_cast<std::int32_t>(state);
+
+        return event;
+    }
+
+    static inline InputEvent createRelativeAxisInputEvent(RelativeAxis axis, std::int32_t value) {
+        pwswd::InputEvent event;
+
+        gettimeofday(&event.time, nullptr);
+        event.type = static_cast<std::uint16_t>(EventType::RelativeAxes);
+        event.code = static_cast<std::uint16_t>(axis);
+        event.value = value;
+
+        return event;        
+    }
+
+    static inline InputEvent createSyncEvent() {
+        pwswd::InputEvent event;
+
+        gettimeofday(&event.time, nullptr);
+        event.type = static_cast<std::uint16_t>(EventType::Synchronization);
+        event.code = static_cast<std::uint16_t>(SynchronizationEvent::Report);
+        event.value = 0;
+
+        return event;
     }
 
 }

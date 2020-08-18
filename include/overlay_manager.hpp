@@ -5,7 +5,7 @@
 
 #include <sys/time.h>
 
-#include "framebuffer.hpp"
+#include "devices/framebuffer.hpp"
 #include "events.hpp"
 
 namespace pwswd {
@@ -38,7 +38,7 @@ namespace pwswd {
             this->m_framebuffer = nullptr;
         }
 
-        void initialize(pwswd::Framebuffer *framebuffer) {
+        void initialize(pwswd::dev::Framebuffer *framebuffer) {
             this->m_framebuffer = framebuffer;
         }
 
@@ -98,7 +98,7 @@ namespace pwswd {
         Overlay m_currOverlay;
         std::queue<Overlay> m_overlayQueue;
 
-        pwswd::Framebuffer *m_framebuffer;
+        pwswd::dev::Framebuffer *m_framebuffer;
 
         void dequeueOverlay() {
             if (gettimeofday(std::addressof(this->m_startTime), nullptr) != 0)

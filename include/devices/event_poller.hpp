@@ -9,7 +9,7 @@
 #include <stdexcept>
 #include <sys/ioctl.h>
 
-namespace pwswd {
+namespace pwswd::dev {
 
     class EventPoller {
     public:

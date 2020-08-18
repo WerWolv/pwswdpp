@@ -10,7 +10,7 @@
 #include <poll.h>
 #include <mutex>
 
-namespace pwswd {
+namespace pwswd::dev {
 
     struct fb_bitfield {
         std::uint32_t offset;   

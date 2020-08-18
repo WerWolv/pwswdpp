@@ -9,31 +9,37 @@
 #include <mutex>
 
 #include "events.hpp"
-#include "event_poller.hpp"
-#include "framebuffer.hpp"
 #include "overlay_manager.hpp"
+
+#include "devices/event_poller.hpp"
+#include "devices/framebuffer.hpp"
 #include "devices/uinput.hpp"
 #include "devices/screen.hpp"
 #include "devices/audio.hpp"
 #include "devices/power.hpp"
 
-static pwswd::EventPoller buttonEvent("/dev/input/event0");
-static pwswd::EventPoller joystickEvent("/dev/input/event3");
+static pwswd::dev::EventPoller buttonEvent("/dev/input/event0");
+static pwswd::dev::EventPoller joystickEvent("/dev/input/event3");
 
-static pwswd::Framebuffer framebuffer("/dev/fb0");
-static pwswd::OverlayManager overlayManager;
+static pwswd::dev::Framebuffer framebuffer("/dev/fb0");
 
 static pwswd::dev::UInput mouse("/dev/uinput", "OpenDingux mouse daemon", { 0x03, 1, 1, 1 });
 static pwswd::dev::Screen screen;
 static pwswd::dev::Audio audio;
 static pwswd::dev::Power power;
 
-static pwswd::MouseMode mouseModeState = pwswd::MouseMode::Deactive;
+static pwswd::OverlayManager overlayManager;
+static pwswd::MouseMode mouseModeState = pwswd::MouseMode::Deactivated;
 static std::mutex mousePositionLock;
 static std::int8_t mouseVelocityX = 0, mouseVelocityY = 0;
 
 void handlePowerShortcut(pwswd::Button button) {
     switch (button) {
+        case pwswd::Button::Start:
+            mouse.inject(pwswd::createButtonInputEvent(pwswd::Button::Home, pwswd::ButtonState::Pressed));
+            mouse.inject(pwswd::createButtonInputEvent(pwswd::Button::Home, pwswd::ButtonState::Released));
+            mouse.inject(pwswd::createSyncEvent());
+            break;
         case pwswd::Button::Select:
             power.killForegroundApplication();
             break;
@@ -58,7 +64,7 @@ void handlePowerShortcut(pwswd::Button button) {
         case pwswd::Button::L3:
             if (mouseModeState == pwswd::MouseMode::LeftJoyStick) {
                 joystickEvent.ungrab();
-                mouseModeState = pwswd::MouseMode::Deactive;
+                mouseModeState = pwswd::MouseMode::Deactivated;
             }
             else {
                 joystickEvent.grab();
@@ -68,7 +74,7 @@ void handlePowerShortcut(pwswd::Button button) {
         case pwswd::Button::R3:
             if (mouseModeState == pwswd::MouseMode::RightJoyStick) {
                 joystickEvent.ungrab();
-                mouseModeState = pwswd::MouseMode::Deactive;
+                mouseModeState = pwswd::MouseMode::Deactivated;
             }
             else {
                 joystickEvent.grab();
@@ -120,7 +126,7 @@ void calculateMouseMovement() {
         const auto &type = static_cast<pwswd::EventType>(eventData.type);
 
         // Don't handle inputs when the screen is off or mouse mode is disabled
-        if (power.isScreenOff() || mouseModeState == pwswd::MouseMode::Deactive)
+        if (power.isScreenOff() || mouseModeState == pwswd::MouseMode::Deactivated)
             continue;
 
         // When mouse mode is active, pass through any button press events
@@ -200,48 +206,17 @@ void moveMouse() {
     mouse.setKeyFilterBit(pwswd::Button::L2);
     mouse.setKeyFilterBit(pwswd::Button::R1);
     mouse.setKeyFilterBit(pwswd::Button::R2);
+    mouse.setKeyFilterBit(pwswd::Button::Home);
 
     mouse.setEventFilterBit(pwswd::EventType::RelativeAxes);
     mouse.setRelativeFilterBit(pwswd::RelativeAxis::AxisX);
     mouse.setRelativeFilterBit(pwswd::RelativeAxis::AxisY);
     mouse.createDevice();
 
-    timeval eventTime;
-    pwswd::InputEvent mouseMoveEventX = {
-        .time = { 0 },
-        .type = std::uint16_t(pwswd::EventType::RelativeAxes),
-        .code = std::uint16_t(pwswd::RelativeAxis::AxisX),
-        .value = 0
-    };
-
-    pwswd::InputEvent mouseMoveEventY = {
-        .time = { 0 },
-        .type = std::uint16_t(pwswd::EventType::RelativeAxes),
-        .code = std::uint16_t(pwswd::RelativeAxis::AxisY),
-        .value = 0
-    };
-
-    pwswd::InputEvent synchronizationEvent = {
-        .time = { 0 },
-        .type = std::uint16_t(pwswd::EventType::Synchronization),
-        .code = std::uint16_t(pwswd::SynchronizationEvent::Report),
-        .value = 0
-    };
-
     while (true) {
-        gettimeofday(std::addressof(eventTime), nullptr);
-        mouseMoveEventX.time = eventTime;
-        gettimeofday(std::addressof(eventTime), nullptr);
-        mouseMoveEventY.time = eventTime;
-        gettimeofday(std::addressof(eventTime), nullptr);
-        synchronizationEvent.time = eventTime;
-
-        mouseMoveEventX.value = mouseVelocityX;
-        mouseMoveEventY.value = mouseVelocityY;
-
-        mouse.inject(mouseMoveEventX);
-        mouse.inject(mouseMoveEventY);
-        mouse.inject(synchronizationEvent);
+        mouse.inject(pwswd::createRelativeAxisInputEvent(pwswd::RelativeAxis::AxisX, mouseVelocityX));
+        mouse.inject(pwswd::createRelativeAxisInputEvent(pwswd::RelativeAxis::AxisY, mouseVelocityY));
+        mouse.inject(pwswd::createSyncEvent());
 
         usleep(10000);
     }
