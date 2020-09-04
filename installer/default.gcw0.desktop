@@ -1,0 +1,31 @@
+[Desktop Entry]
+Name=Install pwswd++
+Version=1.0.3
+Comment=A modern rewrite of the pwswd tool
+Exec=install.sh
+Terminal=true
+Type=Application
+StartupNotify=false
+Icon=icon
+Categories=applications;
+
+# This file contains metadata about how OpenDingux should launch your applications
+# and what information to display in the main menu. Custom launchers may add extra
+# options to use here.
+# 
+# Name : The name of the application shown in the main menu
+# Version : The current version of the application
+# Comment : A short description about the application displayed in the main menu
+# Exec : The name of the executable inside the opk, optional followed by parameters.
+#		 Following specifiers are supported as well: 
+#		 	%f - File selected by the file browser
+#			%F - One or muliple files selected by the file browser
+#			%u - file:// URL
+#			%U - One or multiple file:// URLs
+# Terminal : true if this application is a console app, false if it uses the normal framebuffer
+# Type : Unused on OpenDingux, should be set to Application
+# StartupNotify : Unused on OpenDingux
+# Icon : The name of the icon png file (without the file ending) within the opk
+# Categories : The name of the category the application should appear in. Must end with a semicolon.
+#			   Following categories are supported by default:
+#					application, emulators, games, settings

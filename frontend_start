@@ -1,8 +1,0 @@
-#!/bin/sh
-
-killall pwswd &> /dev/null
-killall pwswdpp &> /dev/null
-
-exec /usr/local/sbin/pwswdpp &
-
-exec /usr/bin/gmenu2x

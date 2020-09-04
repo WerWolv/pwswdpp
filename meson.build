@@ -44,3 +44,14 @@
         dependencies: [ libstdcpp ],
         include_directories: include_dirs
     )
+
+    # OPK creation
+    custom_target(meson.project_name() + '.opk',
+                build_by_default: true,
+                input: [ application, 'installer/default.gcw0.desktop', 'installer/icon.png', 'installer/install.sh', 'installer/S92pwswdpp.sh' ],
+                output: meson.project_name() + '.opk',
+                command: [ meson.get_cross_property('opk_scripts') + '/build_opk', '@OUTPUT@', '@INPUT@' ]
+                )
+
+# Install target
+    meson.add_install_script(meson.get_cross_property('opk_scripts') + '/install_opk', meson.current_build_dir() + '/' + meson.project_name() + '.opk')
