@@ -1,15 +1,15 @@
 {
     "configurations": [
         {
-            "name": "Linux",
+            "name": "Dingux",
             "includePath": [
-                "${workspaceFolder}/include/**"
+                "${workspaceFolder}/include"
             ],
             "defines": [],
-            "compilerPath": "/usr/sbin/clang",
-            "cStandard": "c11",
+            "compilerPath": "${env:DINGUX_TOOLCHAIN}/toolchain/bin/mipsel-buildroot-linux-uclibc-g++",
+            "cStandard": "c18",
             "cppStandard": "c++20",
-            "intelliSenseMode": "clang-x64"
+            "intelliSenseMode": "gcc-arm"
         }
     ],
     "version": 4

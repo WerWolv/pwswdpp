@@ -1,0 +1,26 @@
+[binaries]
+c = '/home/werwolv/Dev/Toolchain/toolchain/bin/mipsel-buildroot-linux-uclibc-gcc'
+cpp = '/home/werwolv/Dev/Toolchain/toolchain/bin/mipsel-buildroot-linux-uclibc-g++'
+ar = '/home/werwolv/Dev/Toolchain/toolchain/bin/mipsel-buildroot-linux-uclibc-ar'
+strip = '/home/werwolv/Dev/Toolchain/toolchain/bin/mipsel-buildroot-linux-uclibc-strip'
+pkgconfig = '/home/werwolv/Dev/Toolchain/toolchain/bin/pkgconf'
+g-ir-compiler = '/home/werwolv/Dev/Toolchain/toolchain/mipsel-buildroot-linux-uclibc/sysroot/usr/bin/g-ir-compiler'
+g-ir-scanner = '/home/werwolv/Dev/Toolchain/toolchain/mipsel-buildroot-linux-uclibc/sysroot/usr/bin/g-ir-scanner'
+
+[properties]
+needs_exe_wrapper = true
+c_args = ['-D_LARGEFILE_SOURCE', '-D_LARGEFILE64_SOURCE', '-D_FILE_OFFSET_BITS=64', '-Os']
+c_link_args = []
+cpp_args = ['-D_LARGEFILE_SOURCE', '-D_LARGEFILE64_SOURCE', '-D_FILE_OFFSET_BITS=64', '-Os']
+cpp_link_args = []
+sys_root = '/home/werwolv/Dev/Toolchain/toolchain/mipsel-buildroot-linux-uclibc/sysroot'
+pkg_config_libdir = '/home/werwolv/Dev/Toolchain/toolchain/mipsel-buildroot-linux-uclibc/sysroot/usr/lib/pkgconfig:/home/werwolv/Dev/Toolchain/toolchain/mipsel-buildroot-linux-uclibc/sysroot/usr/share/pkgconfig'
+pkg_config_static = '$(if $(BR2_STATIC_LIBS),true,false)'
+opk_scripts = '/home/werwolv/Dev/Toolchain/toolchain/scripts'
+dingux_libraries = '/home/werwolv/Dev/Toolchain/libs'
+
+[host_machine]
+system = 'linux'
+cpu_family ='mips'
+cpu = ''
+endian = 'little'
