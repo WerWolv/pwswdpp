@@ -32,16 +32,20 @@ namespace pwswd::dev {
 
             read(this->m_integerScalingfd, buffer, 1);
             this->m_displayStyle |= (buffer[0] == 'Y') << 1;
-
-            read(this->m_brightnessfd, buffer, 9);
             
-            std::uint8_t currBrightnessValue = strtol(buffer, nullptr, 10);
+            std::uint8_t currBrightnessValue = this->getBrightness();
+
+            if (currBrightnessValue < BrightnessValues[0]) 
+                currBrightnessValue = BrightnessValues[19];
+
             for (std::uint8_t i = 0; i < sizeof(BrightnessValues); i++) {
                 if (BrightnessValues[i] >= currBrightnessValue) {
                     this->m_brightnessIndex = i;
                     break;
                 }
             }
+
+            this->setBrightness(currBrightnessValue);
         }
 
         ~Screen() {
@@ -110,9 +114,7 @@ namespace pwswd::dev {
 
             this->m_brightnessIndex++;
 
-            auto brightnessString = std::to_string(BrightnessValues[this->m_brightnessIndex]);
-
-            write(this->m_brightnessfd, brightnessString.c_str(), brightnessString.length());
+            this->setBrightness(BrightnessValues[this->m_brightnessIndex]);
         }
 
         void decreaseBrightness() {
@@ -121,7 +123,18 @@ namespace pwswd::dev {
 
             this->m_brightnessIndex--;
 
-            auto brightnessString = std::to_string(BrightnessValues[this->m_brightnessIndex]);
+            this->setBrightness(BrightnessValues[this->m_brightnessIndex]);
+        }
+
+        std::uint8_t getBrightness() {
+            char buffer[10] = { 0 };
+            read(this->m_brightnessfd, buffer, 9);
+
+            return atoi(buffer);
+        }
+
+        void setBrightness(std::uint8_t brightness) {
+            auto brightnessString = std::to_string(brightness);
 
             write(this->m_brightnessfd, brightnessString.c_str(), brightnessString.length());
         }
