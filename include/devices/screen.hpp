@@ -33,7 +33,15 @@ namespace pwswd::dev {
             read(this->m_integerScalingfd, buffer, 1);
             this->m_displayStyle |= (buffer[0] == 'Y') << 1;
 
-            this->m_brightnessIndex = 19;
+            read(this->m_brightnessfd, buffer, 9);
+            
+            std::uint8_t currBrightnessValue = strtol(buffer, nullptr, 10);
+            for (std::uint8_t i = 0; i < sizeof(BrightnessValues); i++) {
+                if (BrightnessValues[i] >= currBrightnessValue) {
+                    this->m_brightnessIndex = i;
+                    break;
+                }
+            }
         }
 
         ~Screen() {
@@ -43,11 +51,12 @@ namespace pwswd::dev {
         }
 
         void enableBlanking() {
-            write(this->m_blankingfd, "1", 1);
+            write(this->m_brightnessfd, "1", 1);
         }
 
         void disableBlanking() {
-            write(this->m_blankingfd, "0", 1);
+            auto brightnessString = std::to_string(BrightnessValues[this->m_brightnessIndex]);
+            write(this->m_brightnessfd, brightnessString.c_str(), brightnessString.length());
         }
 
         void stopRendering() {

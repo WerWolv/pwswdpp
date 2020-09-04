@@ -81,6 +81,7 @@ void handlePowerShortcut(pwswd::Button button) {
                 mouseModeState = pwswd::MouseMode::RightJoyStick;
             }
             break;
+        default: break;
     }
 }
 
@@ -92,6 +93,7 @@ void handleShortcuts(pwswd::Button button) {
         case pwswd::Button::VolumeDown:
             audio.decrease();
             break;
+        default: break;
     }
 }
 
@@ -117,7 +119,7 @@ void drawOverlay() {
 
 void calculateMouseMovement() {
     std::int32_t joystickDisplacementX = 0, joystickDisplacementY = 0;
-    std::int32_t displacementMagnitude = 0;
+
     while (true) {
         joystickEvent.wait();
 
@@ -225,7 +227,7 @@ void moveMouse() {
 int main() {
     bool activatedShortcut = false;
     bool powerButtonDown = false;
-    timeval timeSincePowerButtonPress;
+    timeval timeSincePowerButtonPress = { 0 };
 
     // Initialize services and devices
     overlayManager.initialize(std::addressof(framebuffer));

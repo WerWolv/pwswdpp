@@ -66,10 +66,10 @@ namespace pwswd::dev {
         }
 
     private:
-        bool m_isScreenOff;
-
         pwswd::dev::EventPoller *m_buttonEvent;
         pwswd::dev::Screen *m_screen;
+
+        bool m_isScreenOff;
     };
 
 }
